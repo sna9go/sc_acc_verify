@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계좌인증 요청</title>
+    <style>
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: start;
+          height: 100vh;
+          margin: 0;
+        }
+      
+        table {
+          width: 900px;
+          border-collapse: collapse;
+        }
+      
+        td {
+          border: 1px solid black;
+          padding: 8px;
+          text-align: left;
+        }
+      
+        .left-column {
+          width: 20em;
+        }
+
+        .acc-info {
+            width: 780px;
+        }
+
+        input {
+            line-height: 1.5em;
+        }
+
+
+
+/* CSS */
+.button-36 {
+  background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  height: 2.4rem;
+  padding: 0 0.8rem;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  transition: all .5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-36:hover {
+  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+  transition-duration: .1s;
+}
+
+.no-padding {
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .button-36 {
+    width: 16em;
+    padding: 0 1.6rem;
+  }
+}
+</style>
+</head>
+<body style="box-sizing: border-box;">
+    <div id="app">
+        <div>
+            <h3>< 계좌정보 ></h3>
+            <table>
+                <tr>
+                  <td style="width:80px">계좌주명 :</td>
+                  <td><input id="bankName" class="acc-info" type="text" /></td>
+                </tr>
+                <tr>
+                  <td style="width:80px">은형코드 :</td>
+                  <td>
+                    <select id="bankCode" name="bankCode" style="width: 787px;line-height: 1.5em;">
+                        <option value="" selected="selected">은행선택</option>
+                        <!-- <option v-for="item in bankCodeArr" :key="item.codeId" :value="item.codeId"> {{ item.codeName }}</option> -->
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:80px">계좌번호 :</td>
+                  <td><input id="bankAccount" class="acc-info" type="text" /></td>
+                </tr>
+              </table>
+
+            <div>
+            </div>
+            <div style="text-align: center;margin-top: 5px;">
+                <button type="button" id="send-request-btn" class="button-36" role="button">
+                    요청
+                </button>
+            </div>
+            <div>
+              <h3>< 리턴 결과 ></h3>
+              <table>
+                  <tr>
+                    <td style="width:80px">결과 :</td>
+                    <td id="resultArea"></td>
+                  </tr>
+                </table>
+            </div>
+            <div style="text-align: center;margin-top: 5px;">
+              <button type="button" id="clear-result-btn" class="button-36" role="button">
+                  결과 삭제
+              </button>
+          </div>
+        </div>
+    </div>
+
+
+    
+    <script>
+
+        const inputName    = document.querySelector('#bankName')
+        const inputAccount = document.querySelector('#bankAccount')
+        const selectBank   = document.querySelector('#bankCode')
+
+        const bankCodeStr = `[{"cateId":"BANK_CODE","codeId":"02","codeName":"산업은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"10","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"03","codeName":"기업은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"20","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"04","codeName":"국민은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"30","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"07","codeName":"수협","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"40","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"11","codeName":"농협","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"50","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"12","codeName":"단위농협","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"60","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"20","codeName":"우리은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"70","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"23","codeName":"SC제일은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"80","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"27","codeName":"한국시티은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"90","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"31","codeName":"대구은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"100","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"32","codeName":"부산은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"110","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"34","codeName":"광주은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"120","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"35","codeName":"제주은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"130","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"37","codeName":"전북은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"140","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"39","codeName":"경남은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"150","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"45","codeName":"새마을금고","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"160","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"48","codeName":"신협","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"170","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"50","codeName":"저축은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"180","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"54","codeName":"HSBC","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"190","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"55","codeName":"도이치은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"200","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"57","codeName":"JP모간","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"210","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"60","codeName":"BOA (BankOf America)","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"220","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"61","codeName":"비엔피파리바은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"230","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"64","codeName":"산림조합","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"240","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"71","codeName":"우체국","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"250","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"81","codeName":"KEB 하나은행(구, 외환포함)","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"260","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"88","codeName":"신한은행","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"270","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"89","codeName":"케이뱅크","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"280","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"90","codeName":"카카오뱅크","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"290","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"92","codeName":"토스뱅크","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"300","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"209","codeName":"유안타증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"310","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"218","codeName":"KB증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"320","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"238","codeName":"미래에셋대우","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"330","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"240","codeName":"삼성증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"340","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"243","codeName":"한국투자증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"350","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"247","codeName":"NH투자증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"360","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"262","codeName":"하이투자증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"370","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"263","codeName":"현대차증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"380","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"266","codeName":"SK증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"390","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"267","codeName":"대신증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"400","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"269","codeName":"한화투자증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"410","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"270","codeName":"하나금융투자","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"420","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"278","codeName":"신한금융투자","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"430","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"279","codeName":"DB금융투자","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"440","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"280","codeName":"유진투자증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"450","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"287","codeName":"메리츠증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"460","useYn":"Y","seq":0},{"cateId":"BANK_CODE","codeId":"291","codeName":"신영증권","ref1":"","ref1Name":null,"ref2":"","ref3":"","ref4":"","ord":"470","useYn":"Y","seq":0}]`;
+        const bankCodeArr = JSON.parse(bankCodeStr);
+
+        let bankCodeValue = 0;
+        let bankCodeIndex = 0;
+        let bankAccount = "";
+        let bankName = "";
+        let resultText = "";
+
+        function initResultArea() {
+            bankCodeValue = 0;
+            bankCodeIndex = 0;
+            bankAccount = "";
+            bankName = "";
+            resultText = "";
+        }
+
+        function euckrEncode(str) {
+            return encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+            return String.fromCharCode(parseInt(p1, 16));
+            }).split('').map(function(char) {
+            return char.charCodeAt(0) > 127 ? '%' + char.charCodeAt(0).toString(16).toUpperCase() : char;
+            }).join('');
+        }
+
+        function euckrDecode(encodedStr) {
+            return decodeURIComponent(encodedStr.split('').map(function(char) {
+            return char.charCodeAt(0) > 127 ? '%' + char.charCodeAt(0).toString(16).toUpperCase() : char;
+            }).join('')).split('').map(function(char) {
+            return char.charCodeAt(0) > 255 ? '%' + char.charCodeAt(0).toString(16).toUpperCase() : char;
+            }).join('').replace(/%/g, '').match(/.{1,2}/g).map(function(byte) {
+                return '%' + byte;
+            }).join('');
+        }
+
+        function sendRequest() {
+
+            bankName = inputName.value
+            bankAccount = inputAccount.value
+            bankCodeValue = selectBank.value
+
+            console.log(`bankName: [${bankName}]`)
+            console.log(`bankCodeValue: [${bankCodeValue}]`)
+            console.log(`bankAccount: [${bankAccount}]`)
+
+            if (!bankName || !bankCodeValue || !bankAccount) { return; }
+
+            // 계좌주 이름 -> euc-kr 인코딩
+            if (bankName) {
+                const encodedName = euckrEncode(bankName)
+                appendHtml(`accountName=[${bankName}], encodedName=[${encodedName}]`)
+            }
+
+            // 은행코드
+            if (bankCodeValue) {
+                const selectedBankId = Number(bankCodeValue)
+                appendHtml(`bankId=[${selectedBankId}]`)
+
+                const selectedBankObj = bankCodeArr.find((item) => (Number(item.codeId) === Number(selectedBankId)))
+
+                //console.log(JSON.stringify(selectedBankObj))
+                const selectedBankName = selectedBankObj.codeName
+                appendHtml(`bankName=[${selectedBankName}], bankCodeValue=[${bankCodeValue}]`)
+            }
+
+            // 계좌번호
+            if (bankAccount) {
+                appendHtml(`bankAccount=[${bankAccount}]`)
+            }
+
+            appendHtml(`<br/>`)
+        }
+
+        function clearResult() {
+            resultText = ""
+            const resultHtml = document.querySelector("#resultArea")
+            resultHtml.innerHTML = resultText
+        }
+
+        function appendHtml(addStr) {
+
+            if (!addStr) { return; }
+
+            resultText += `<div class="no-padding">${addStr}</div>`
+
+            const resultHtml = document.querySelector("#resultArea")
+            resultHtml.innerHTML = resultText
+
+        }
+
+        function fillSelectList() {
+            let options = `<option value="" selected="selected">은행선택</option>\n`
+            bankCodeArr.forEach((item, index) => {
+                options += `<option value="${item.codeId}" >${item.codeName}</option>\n`
+            })
+            selectBank.innerHTML = options;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // HTML DOM이 로딩된 후에 실행되는 코드
+            // 여기에 스크립트 작성
+
+            initResultArea();
+            fillSelectList();
+
+            // Register sendRequest function
+            document.getElementById('send-request-btn').addEventListener('click', sendRequest);
+            document.getElementById('clear-result-btn').addEventListener('click', clearResult);
+
+        });
+    
+      </script>
+</body>
+</html>
