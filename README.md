@@ -3,6 +3,7 @@
 # KCP 관련
 
 [KCP HUB 계좌인증 연동 가이드](https://usermanual.wiki/Document/3672776730CW9qk0dgNHNKCPHUBACNTCertONLYManualV201.505510236.pdf)
+[결제연동 유투브 링크](https://youtu.be/DhcQFLYV9Q8?si=Fsn-9YxrqRFILUy6)
 
 ---
 
