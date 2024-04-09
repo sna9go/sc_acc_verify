@@ -5,38 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>계좌인증 요청</title>
     <style>
-        body {
-          display: flex;
-          justify-content: center;
-          align-items: start;
-          height: 100vh;
-          margin: 0;
-        }
-      
-        table {
-          width: 900px;
-          border-collapse: collapse;
-        }
-      
-        td {
-          border: 1px solid black;
-          padding: 8px;
-          text-align: left;
-        }
-      
-        .left-column {
-          width: 20em;
-        }
-
-        .acc-info {
-            width: 780px;
-        }
-
-        input {
-            line-height: 1.5em;
-        }
-
-
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+      }
+      table {
+        width: 900px;
+        border-collapse: collapse;
+      }
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      .left-column {
+        width: 20em;
+      }
+      .acc-info {
+          width: 780px;
+      }
+      input {
+          line-height: 1.5em;
+      }
       .button-36 {
         background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
         border-radius: 8px;
@@ -48,6 +42,7 @@
         font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
         font-size: 16px;
         font-weight: 500;
+        width: 16em;
         height: 2.4rem;
         padding: 0 0.8rem;
         text-align: center;
@@ -57,21 +52,138 @@
         -webkit-user-select: none;
         touch-action: manipulation;
       }
-
       .button-36:hover {
         box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
         transition-duration: .1s;
       }
-
       .no-padding {
         padding: 0;
         margin: 0;
       }
+      #result-area {
+        height: 450px;
+        overflow: auto;
+      }
+      .label {
+        width: 6em;
+      }
+      h3 {
+        font-size: 1.15em;
+        margin-top: 2px;
+        margin-bottom: 2px;
+      }
 
-      @media (min-width: 768px) {
+      @media screen and (min-width: 800px) {
+        td {
+          border: 1px solid black;
+          padding: 5px;
+          text-align: left;
+        }
+        .label {
+          width: 120px;
+        }
+        #result-label {
+          width: 83px;
+        }
+        .input-column {
+          width: 650px;
+        }
         .button-36 {
-          width: 16em;
+          width: 12em;
           padding: 0 1.6rem;
+        }
+        table {
+          width: 900px;
+        }
+        .acc-info {
+            width: 780px;
+        }
+        #bank-code {
+          width: 787px;
+          line-height: 1.5em;
+        }
+        #result-area {
+          height: 450px;
+          overflow-y: auto;
+        }
+        .input-column {
+          width: 800px;
+        }
+      }
+
+      @media screen and (max-width: 799px) {
+        td {
+          border: 1px solid black;
+          padding: 2px;
+          text-align: left;
+        }
+        .label {
+          width: 90px;
+        }
+        #result-label {
+          width: 90px;
+        }
+        .input-column {
+          width: 500px;
+        }
+        .button-36 {
+          width: 8em;
+          padding: 0 1.6rem;
+        }
+        table {
+          width: 600px;
+        }
+        .acc-info {
+          width: 400px;
+        }
+        #bank-code {
+          width: 407px;
+          line-height: 1.5em;
+        }
+        #result-area {
+          height: 250px;
+          overflow: auto;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        h3 {
+          font-size: 0.95em;
+        }
+        td {
+          border: 1px solid black;
+          padding: 2px;
+          text-align: left;
+        }
+        .label {
+          width: 90px;
+        }
+        #result-label {
+          width: 83px;
+        }
+        .input-column {
+          width: 296px;
+        }
+        .button-36 {
+          font-size: 0.95em;
+          width: 8em;
+          height: 1.8em;
+          padding: 0 1.6rem;
+          margin-bottom: 2px;
+        }
+        table {
+          width: 370px;
+        }
+        .acc-info {
+          width: 200px;
+        }
+        #bank-code {
+          width: 207px;
+          line-height: 1.5em;
+        }
+        #result-area {
+          height: 250px;
+          overflow: auto;
         }
       }
 </style>
@@ -82,27 +194,27 @@
             <h3>< 계좌정보 ></h3>
             <table>
                 <tr>
-                  <td style="width:80px">계좌주명 :</td>
-                  <td><input id="bank-name" class="acc-info" type="text" /></td>
+                  <td class="label">계좌주명 :</td>
+                  <td class="input-column"><input id="bank-name" class="acc-info" type="text" /></td>
                 </tr>
                 <tr>
-                  <td style="width:80px">은형코드 :</td>
-                  <td>
-                    <select id="bank-code" name="bankCode" style="width: 787px;line-height: 1.5em;">
+                  <td class="label">은형코드 :</td>
+                  <td class="input-column">
+                    <select id="bank-code" name="bankCode">
                         <option value="" selected="selected">은행선택</option>
                         <!-- <option v-for="item in bankCodeArr" :key="item.codeId" :value="item.codeId"> {{ item.codeName }}</option> -->
                     </select>
                   </td>
                 </tr>
                 <tr>
-                  <td style="width:80px">계좌번호 :</td>
-                  <td><input id="bank-account" class="acc-info" type="text" /></td>
+                  <td class="label">계좌번호 :</td>
+                  <td class="input-column"><input id="bank-account" class="acc-info" type="text" /></td>
                 </tr>
               </table>
 
             <div>
             </div>
-            <div style="text-align: center;margin-top: 5px;">
+            <div style="text-align: center;margin-top: 10px;">
                 <button type="button" id="send-request-btn" class="button-36" role="button">
                     요청
                 </button>
@@ -114,12 +226,13 @@
               <h3>< 리턴 결과 ></h3>
               <table>
                   <tr>
-                    <td style="width:80px">결과 :</td>
-                    <td><div id="result-area" style="height: 450px; overflow-y: auto;"></div></td>
+                    <td id="result-label">결과 :</td>
+                    <td class="input-column">
+                      <div id="result-area"></div>
+                    </td>
                   </tr>
                 </table>
             </div>
-            <div style="text-align: center;margin-top: 5px;">
           </div>
         </div>
     </div>
