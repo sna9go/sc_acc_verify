@@ -20,3 +20,5 @@ PG사 모듈을 직접 연동시에는 일반적으로 결제요청은 2-Transac
 
 ## 포트원 결제 흐름도
 ![포트원 결제 흐름도|200](https://portone.gitbook.io/~gitbook/image?url=https:%2F%2F2409678497-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FwWX2hlvRZLZrXeH1aacF%252Fuploads%252Fgit-blob-23e3d8d8040deedc6974922657d8efa6850a8a3d%252Fimage.png%3Falt=media&width=768&dpr=1&quality=100&sign=868d6c607a336430a0412981031471d451343aa364c4afa0883923b8bba985eb)
+
+## [반응형 CSS 기준 참고한 사이트](https://apost.dev/823/)
