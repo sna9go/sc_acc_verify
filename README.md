@@ -2,8 +2,10 @@
 
 # KCP 관련
 
-[KCP HUB 계좌인증 연동 가이드](https://usermanual.wiki/Document/3672776730CW9qk0dgNHNKCPHUBACNTCertONLYManualV201.505510236.pdf)
-[결제연동 유투브 링크](https://youtu.be/DhcQFLYV9Q8?si=Fsn-9YxrqRFILUy6)
+- [KCP HUB 계좌인증 연동 가이드 PDF 문서](https://usermanual.wiki/Document/3672776730CW9qk0dgNHNKCPHUBACNTCertONLYManualV201.505510236.pdf)
+- [KCP developers 다운로드 자료실](https://developer.kcp.co.kr/page/download)
+- [KCP API 참고용 github 오픈소스](https://github.com/evans-kim/kcp/tree/master)
+- [결제연동 유투브 링크](https://youtu.be/DhcQFLYV9Q8?si=Fsn-9YxrqRFILUy6)
 
 ---
 
@@ -23,4 +25,4 @@ PG사 모듈을 직접 연동시에는 일반적으로 결제요청은 2-Transac
 
 ## [반응형 CSS 기준 참고한 사이트](https://apost.dev/823/)
 
-## [KCP API 참고용 오픈소스](https://github.com/evans-kim/kcp/tree/master)
+
